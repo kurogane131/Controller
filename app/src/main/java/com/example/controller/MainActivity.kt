@@ -3,16 +3,10 @@ package com.example.controller
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.*
-import okio.Buffer
-import okio.ByteString
 import java.lang.NumberFormatException
 
 //シングルトン宣言として、ウェブソケットマネージャーを作成
@@ -99,6 +93,7 @@ class MainActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                 }
+
 
                 override fun onMessage(webSocket: WebSocket, text: String) {
                     //受信メッセージをうぇうぼソケットマネージャーのセットレシーブデータに渡す
