@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 左側のシークバー -->
+        <SeekBar
+            android:id="@+id/seekBarLeft"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:max="260"
+            android:rotation="270"
+            android:thumb="@drawable/custom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/seekBarCenter"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 中央の区切り -->
+        <View
+            android:id="@+id/seekBarCenter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/seekBarLeft"
+            app:layout_constraintRight_toLeftOf="@id/seekBarRight"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 右側のシークバー -->
+        <SeekBar
+            android:id="@+id/seekBarRight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:max="260"
+            android:rotation="270"
+            android:thumb="@drawable/custom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/seekBarCenter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/endRadio"
+            android:layout_width="227dp"
+            android:layout_height="44dp"
+            android:backgroundTint="#2196F3"
+            android:text="通信の終了"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
