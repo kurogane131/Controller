@@ -22,21 +22,23 @@
             android:thumb="@drawable/custom"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/seekBarCenter"
+            app:layout_constraintRight_toLeftOf="@+id/videoImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 中央の区切り -->
-        <View
-            android:id="@+id/seekBarCenter"
+
+        <!-- 右側のシークバー -->
+        <ImageView
+            android:id="@+id/videoImageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="6"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/seekBarLeft"
             app:layout_constraintRight_toLeftOf="@id/seekBarRight"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <!-- 右側のシークバー -->
         <SeekBar
             android:id="@+id/seekBarRight"
             android:layout_width="0dp"
@@ -46,19 +48,32 @@
             android:rotation="270"
             android:thumb="@drawable/custom"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/seekBarCenter"
+            app:layout_constraintLeft_toRightOf="@+id/videoImageView"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/endRadio"
-            android:layout_width="227dp"
-            android:layout_height="44dp"
+            android:layout_width="125dp"
+            android:layout_height="66dp"
             android:backgroundTint="#2196F3"
             android:text="通信の終了"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/videoImageView"
+            app:layout_constraintHorizontal_bias="0.645"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/cameraButton"
+            android:layout_width="126dp"
+            android:layout_height="65dp"
+            android:text="カメラOFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.083"
+            app:layout_constraintStart_toEndOf="@+id/endRadio"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 

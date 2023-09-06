@@ -1,10 +1,13 @@
 package com.example.controller
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -49,7 +52,20 @@ class ControllPanelActivity : AppCompatActivity(){
 
         //通信終了ボタンのインスタンス
         var endRadio = findViewById<Button>(R.id.endRadio)
+        //カメラをオンオフするボタンのインスタンス
+        var cameraSwitch = findViewById<Button>(R.id.cameraButton)
+        //カメラ映像を表示するためのビューをインスタンスする
+        val videoImageView = findViewById<ImageView>(R.id.videoImageView)
         //終了ボタンを押した時、終了コマンドを送信し、サーバーから受理したという報告があれば初期画面へ、無ければ待機する
+
+        // 受け取った映像を表示するスレッド、ウェブソケットマネージャーにあるデコードメソッドを利用している
+        WebSocketManager.setOnVideoDataReceivedListener { videoData ->
+            runOnUiThread {
+                val decodedBitmap = BitmapFactory.decodeByteArray(videoData, 0, videoData.size)
+                videoImageView.setImageBitmap(decodedBitmap)
+            }
+        }
+
         endRadio.setOnClickListener{
             WebSocketManager.sendCommand("exit")
             // データを受信するまで待機せず、受信データをチェック
@@ -59,13 +75,14 @@ class ControllPanelActivity : AppCompatActivity(){
                     runOnUiThread {
                         setContentView(R.layout.activity_main)
                         WebSocketManager.webSocket?.close(1000, "通信の通常終了")
+                        WebSocketManager.resourceRelease()
+
                     }
                 } else {
                     //サーバーから受理メッセージが来ない時、コマンドを送って返答があるかを確認する
                     WebSocketManager.sendCommand("Live")
                     delay(1000)
                     var str = WebSocketManager.getReceivedData()
-                    println("$str 受け取ったデータ")
                     //返答があれば終了メッセージが届いていないということなので、再処理を促す
                     if(WebSocketManager.getReceivedData() == "Lived"){
                         //再処理の判定に入ったので、今ある受信データはリセットする
@@ -83,10 +100,24 @@ class ControllPanelActivity : AppCompatActivity(){
                     }else{
                         //メッセージに応答がないためサーバーが終了しているものとしてウェブソケットをクローズする
                         WebSocketManager.webSocket?.close(1000, "通信が終了済みのためクローズ")
+                        WebSocketManager.resourceRelease()
                         val intent = Intent(this@ControllPanelActivity,MainActivity::class.java)
                         startActivity(intent)
                     }
                 }
+            }
+        }
+
+        cameraSwitch.setOnClickListener {
+            //現在がオフなら、ONのコマンドを送信し、表示をONにする
+            if(cameraSwitch.text.equals("カメラOFF")){
+                webSocketManager.sendCommand("ON")
+                cameraSwitch.text = "カメラON"
+
+            //現在がオンなら、OFFのコマンドを送信し、表示をOFFにする
+            }else if(cameraSwitch.text.equals("カメラON")){
+                webSocketManager.sendCommand("OFF")
+                cameraSwitch.text = "カメラOFF"
             }
         }
 
@@ -190,5 +221,6 @@ class ControllPanelActivity : AppCompatActivity(){
             }
         })
     }
+
 }
 
